@@ -1,13 +1,31 @@
-from distutils.util import get_platform
 import subprocess
 import sys
 from distutils import log
+from distutils.command.clean import clean as origin_clean
 from distutils.errors import DistutilsExecError
 from distutils.file_util import copy_file
+from distutils.util import get_platform
 from pathlib import Path
 
 from setuptools import Command, setup
 from setuptools.command.build_py import build_py as origin_build_py
+
+
+def run_gradle_task(root, task):
+    if sys.platform == 'win32':
+        gradlew = "gradlew.bat"
+    else:
+        gradlew = "gradlew"
+
+    if sys.platform == 'win32':
+        cmd = f"{gradlew} {task}"
+    else:
+        cmd = f"./{gradlew} {task}"
+
+    log.info(f"running {cmd} (in {root})")
+    call_return = subprocess.call(cmd, shell=True, cwd=root)
+    if call_return != 0:
+        raise DistutilsExecError(f"gradlew returned an non-zero value {call_return}")
 
 
 class build_py(origin_build_py):
@@ -20,7 +38,7 @@ class build_kt(Command):
     user_options = [
         ('build-lib=', 'd', "directory to \"build\" (copy) to"),
         ('kt-libraries=', None, ''),
-        ('shared-location=', None, ""), 
+        ('shared-location=', None, ""),
     ]
 
     def initialize_options(self) -> None:
@@ -47,25 +65,13 @@ class build_kt(Command):
             log.info("building '%s' Kotlin/Native Shared Library", lib_name)
 
             root = Path(build_info.get("root")).absolute()
-            if sys.platform == 'win32':
-                gradlew = "gradlew.bat"
-            else:
-                gradlew = "gradlew"
 
             task = ""
             if (subproject := build_info.get("subproject", None)) is not None:
                 task += f":{subproject}:"
             task += "linkReleaseSharedNative"
 
-            if sys.platform == 'win32':
-                cmd = f"{gradlew} {task}"
-            else:
-                cmd = f"./{gradlew} {task}"
-
-            log.info(f"running {cmd} (in {root})")
-            call_return = subprocess.call(cmd, shell=True, cwd=root)
-            if call_return != 0:
-                raise DistutilsExecError(f"gradlew returned an non-zero value {call_return}")
+            run_gradle_task(root, task)
 
             build_dir = self.get_kt_build_dir(lib_name, build_info)
 
@@ -80,6 +86,32 @@ class build_kt(Command):
 
     def run(self):
         self.build_sharedlib()
+
+
+class clean(origin_clean):
+    def run(self) -> None:
+        super().run()
+        self.run_command("clean_kt")
+
+
+class clean_kt(Command):
+    user_options = [
+        ('kt-libraries=', None, ''),
+    ]
+
+    def initialize_options(self) -> None:
+        self.kt_libraries = None
+
+    def finalize_options(self) -> None:
+        self.set_undefined_options('build_kt',
+                                   ('kt_libraries', 'kt_libraries'))
+
+    def run(self):
+        for (lib_name, build_info) in self.kt_libraries:
+            log.info("cleaning '%s' Kotlin/Native Shared Library", lib_name)
+
+            root = Path(build_info.get("root")).absolute()
+            run_gradle_task(root, "clean")
 
 
 with open("README.md", "r", encoding="utf-8") as f:
@@ -123,5 +155,5 @@ setup(
             "plat_name": get_platform()
         }
     },
-    cmdclass={"build_kt": build_kt, "build_py": build_py}
+    cmdclass={"build_kt": build_kt, "build_py": build_py, "clean": clean, "clean_kt": clean_kt}
 )
