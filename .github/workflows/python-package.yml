@@ -115,6 +115,6 @@ jobs:
         password: ${{ secrets.PYPI_API_TOKEN }}
     - name: Upload Build Artifact to releases
       uses: fnkr/github-action-ghr@v1.3
-      with:
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GHR_PATH: dist/
