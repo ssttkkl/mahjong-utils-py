@@ -58,15 +58,15 @@ result = shanten(parse_tiles("112233p44556s127z"))
 result.shanten
 # 1
 result.discard_to_advance
-# {1p: ShantenWithoutGot(shanten=2, advance={2z, 7z, 1p, 4p, 3s, 6s, 1z}, advance_num=22, well_shape_advance=None, well_shape_advance_num=None),
-# 2p: ShantenWithoutGot(shanten=2, advance={2z, 7z, 2p, 3s, 6s, 1z}, advance_num=18, well_shape_advance=None, well_shape_advance_num=None),
-# 3p: ShantenWithoutGot(shanten=2, advance={2z, 7z, 3p, 3s, 6s, 1z}, advance_num=18, well_shape_advance=None, well_shape_advance_num=None),
-# 4s: ShantenWithoutGot(shanten=2, advance={2z, 7z, 3s, 4s, 5s, 6s, 7s, 1z}, advance_num=24, well_shape_advance=None, well_shape_advance_num=None),
-# 5s: ShantenWithoutGot(shanten=2, advance={2z, 7z, 2s, 3s, 4s, 5s, 6s, 1z}, advance_num=24, well_shape_advance=None, well_shape_advance_num=None),
-# 6s: ShantenWithoutGot(shanten=1, advance={2z, 7z, 1z}, advance_num=9, well_shape_advance=set(), well_shape_advance_num=0),
-# 1z: ShantenWithoutGot(shanten=1, advance={2z, 6s, 7z, 3s}, advance_num=13, well_shape_advance={2z, 7z}, well_shape_advance_num=6),
-# 2z: ShantenWithoutGot(shanten=1, advance={6s, 3s, 7z, 1z}, advance_num=13, well_shape_advance={7z, 1z}, well_shape_advance_num=6),
-# 7z: ShantenWithoutGot(shanten=1, advance={2z, 6s, 3s, 1z}, advance_num=13, well_shape_advance={2z, 1z}, well_shape_advance_num=6)}
+# {1p: ShantenWithoutGot(shanten=2, advance={2z, 7z, 1p, 4p, 3s, 6s, 1z}, advance_num=22, good_shape_advance=None, good_shape_advance_num=None),
+# 2p: ShantenWithoutGot(shanten=2, advance={2z, 7z, 2p, 3s, 6s, 1z}, advance_num=18, good_shape_advance=None, good_shape_advance_num=None),
+# 3p: ShantenWithoutGot(shanten=2, advance={2z, 7z, 3p, 3s, 6s, 1z}, advance_num=18, good_shape_advance=None, good_shape_advance_num=None),
+# 4s: ShantenWithoutGot(shanten=2, advance={2z, 7z, 3s, 4s, 5s, 6s, 7s, 1z}, advance_num=24, good_shape_advance=None, good_shape_advance_num=None),
+# 5s: ShantenWithoutGot(shanten=2, advance={2z, 7z, 2s, 3s, 4s, 5s, 6s, 1z}, advance_num=24, good_shape_advance=None, good_shape_advance_num=None),
+# 6s: ShantenWithoutGot(shanten=1, advance={2z, 7z, 1z}, advance_num=9, good_shape_advance=set(), good_shape_advance_num=0),
+# 1z: ShantenWithoutGot(shanten=1, advance={2z, 6s, 7z, 3s}, advance_num=13, good_shape_advance={2z, 7z}, good_shape_advance_num=6),
+# 2z: ShantenWithoutGot(shanten=1, advance={6s, 3s, 7z, 1z}, advance_num=13, good_shape_advance={7z, 1z}, good_shape_advance_num=6),
+# 7z: ShantenWithoutGot(shanten=1, advance={2z, 6s, 3s, 1z}, advance_num=13, good_shape_advance={2z, 1z}, good_shape_advance_num=6)}
 ```
 
 ### 和了分析

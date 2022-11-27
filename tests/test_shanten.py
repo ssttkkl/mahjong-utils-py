@@ -5,7 +5,7 @@ from mahjong_utils.shanten import shanten, kokushi_shanten, regular_shanten
 def shanten_tester(tiles, expected_shanten,
                    expected_advance,
                    expected_advance_num,
-                   expected_well_shape_advance_num=None, *,
+                   expected_good_shape_advance_num=None, *,
                    test_func=shanten):
     tiles = parse_tiles(tiles)
     result = test_func(tiles)
@@ -13,7 +13,7 @@ def shanten_tester(tiles, expected_shanten,
     assert result.shanten == expected_shanten
     assert result.advance == expected_advance
     assert result.advance_num == expected_advance_num
-    assert result.well_shape_advance_num == expected_well_shape_advance_num
+    assert result.good_shape_advance_num == expected_good_shape_advance_num
     assert result.discard_to_advance is None
 
 

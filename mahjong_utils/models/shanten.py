@@ -26,8 +26,8 @@ class Shanten(BaseModel, ABC):
 class ShantenWithoutGot(Shanten):
     advance: Set[Tile]
     advance_num: Optional[int]
-    well_shape_advance: Optional[Set[Tile]]
-    well_shape_advance_num: Optional[int]
+    good_shape_advance: Optional[Set[Tile]]
+    good_shape_advance_num: Optional[int]
 
     def __encode__(self) -> dict:
         return dict(
@@ -35,9 +35,9 @@ class ShantenWithoutGot(Shanten):
             shantenNum=self.shanten,
             advance=[t.__encode__() for t in self.advance],
             advanceNum=self.advance_num,
-            wellShapeAdvance=[t.__encode__() for t in well_shape_advance]
-            if (well_shape_advance := self.well_shape_advance) is not None else None,
-            wellShapeAdvanceNum=self.well_shape_advance_num
+            goodShapeAdvance=[t.__encode__() for t in good_shape_advance]
+            if (good_shape_advance := self.good_shape_advance) is not None else None,
+            goodShapeAdvanceNum=self.good_shape_advance_num
         )
 
     @classmethod
@@ -47,10 +47,10 @@ class ShantenWithoutGot(Shanten):
             advance=set(Tile.__decode__(x) for x in data["advance"]),
             advance_num=advance_num
             if (advance_num := data["advanceNum"]) is not None else None,
-            well_shape_advance=set(Tile.__decode__(x) for x in well_shape_advance)
-            if (well_shape_advance := data["wellShapeAdvance"]) is not None else None,
-            well_shape_advance_num=well_shape_advance_num
-            if (well_shape_advance_num := data["wellShapeAdvanceNum"]) is not None else None,
+            good_shape_advance=set(Tile.__decode__(x) for x in good_shape_advance)
+            if (good_shape_advance := data["goodShapeAdvance"]) is not None else None,
+            good_shape_advance_num=good_shape_advance_num
+            if (good_shape_advance_num := data["goodShapeAdvanceNum"]) is not None else None,
         )
 
 

@@ -60,12 +60,12 @@ class ShantenResult(BaseModel):
         return getattr(self.shanten_info, "advance_num", None)
 
     @property
-    def well_shape_advance(self) -> Optional[Set[Tile]]:
-        return getattr(self.shanten_info, "well_shape_advance", None)
+    def good_shape_advance(self) -> Optional[Set[Tile]]:
+        return getattr(self.shanten_info, "good_shape_advance", None)
 
     @property
-    def well_shape_advance_num(self) -> Optional[int]:
-        return getattr(self.shanten_info, "well_shape_advance_num", None)
+    def good_shape_advance_num(self) -> Optional[int]:
+        return getattr(self.shanten_info, "good_shape_advance_num", None)
 
     @property
     def discard_to_advance(self) -> Optional[Dict[Tile, ShantenWithoutGot]]:
