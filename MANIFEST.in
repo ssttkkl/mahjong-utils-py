@@ -1,1 +1,2 @@
 graft kt
+exclude **/.gradle/**/* **/build/**/* **/.idea/**/*
