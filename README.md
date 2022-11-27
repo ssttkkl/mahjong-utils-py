@@ -15,11 +15,10 @@ mahjong-utils-py
 pip install mahjong-utils
 ```
 
-或通过源码安装：
+或通过源码安装（本机必须配置JDK环境用于编译）：
 
 ```shell
-git clone --recursive https://github.com/ssttkkl/mahjong-utils-py.git
-pip install ./mahjong-utils-py
+pip install git+https://github.com/ssttkkl/mahjong-utils-py.git
 ```
 
 ## 使用
