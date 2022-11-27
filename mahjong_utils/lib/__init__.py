@@ -1,5 +1,6 @@
 import json
 import sys
+import threading
 from importlib import resources
 from typing import Optional, Mapping, Any
 
@@ -23,7 +24,13 @@ class LibMahjongUtils:
 
         with resources.path(__name__, libname) as libpath:
             self.lib = self.ffi.dlopen(str(libpath))
-        self.lib_sy = self.lib.libmahjongutils_symbols()
+
+        self._lib_sy = threading.local()
+        self._lib_sy.x = self.lib.libmahjongutils_symbols()
+
+    @property
+    def lib_sy(self):
+        return self._lib_sy.x
 
     def call(self, name: str, params: dict,
              params_dumps_kwargs: Optional[Mapping[str, Any]] = None,
