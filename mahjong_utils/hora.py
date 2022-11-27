@@ -147,12 +147,12 @@ def build_hora_from_shanten_result(
     :return: Hora
     """
     result = libmahjongutils.call("hora", {
-        "shanten_result": shanten_result.encode(),
+        "shantenResult": shanten_result.__encode__(),
         "agari": str(agari),
         "tsumo": tsumo,
         "dora": dora,
-        "selfWind": self_wind.name if self_wind is not None else None,
-        "roundWind": round_wind.name if round_wind is not None else None,
+        "selfWind": pascalcase(self_wind.name) if self_wind is not None else None,
+        "roundWind": pascalcase(round_wind.name) if round_wind is not None else None,
         "extraYaku": [pascalcase(yk.name) for yk in extra_yaku] if extra_yaku is not None else []
     })
 

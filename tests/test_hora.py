@@ -1,7 +1,8 @@
-from mahjong_utils.hora import build_hora
+from mahjong_utils.hora import build_hora, build_hora_from_shanten_result
 from mahjong_utils.models.furo import Furo
 from mahjong_utils.models.tile import Tile, parse_tiles
 from mahjong_utils.models.wind import Wind
+from mahjong_utils.shanten import shanten
 from mahjong_utils.yaku.common import ittsu, chinitsu, ipe, tsumo, pinhu, honitsu, sananko, toitoi, self_wind, \
     round_wind, haku
 from mahjong_utils.yaku.extra import richi, tenhou, ippatsu
@@ -102,3 +103,13 @@ def test_build_hora_9():
     assert hora.han == 13 * 6
     assert hora.parent_point == (48000 * 6, 16000 * 6)
     assert hora.child_point == (32000 * 6, 16000 * 6, 8000 * 6)
+
+
+def test_build_hora_from_shanten_result():
+    shanten_result = shanten(parse_tiles("11123445678999m"))
+    hora = build_hora_from_shanten_result(shanten_result, Tile.by_text("9m"), True)
+
+    assert hora.yaku == {churen}
+    assert hora.han == 13
+    assert hora.parent_point == (48000, 16000)
+    assert hora.child_point == (32000, 16000, 8000)

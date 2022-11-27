@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Optional, Sequence, Set, Dict
 
 from pydantic import BaseModel
-from stringcase import snakecase
+from stringcase import snakecase, pascalcase
 
 from mahjong_utils.lib import libmahjongutils
 from mahjong_utils.models.furo import Furo
@@ -26,25 +26,25 @@ class ShantenResult(BaseModel):
     chitoi: Optional["ShantenResult"]
     kokushi: Optional["ShantenResult"]
 
-    def encode(self) -> dict:
+    def __encode__(self) -> dict:
         return dict(
-            type=self.type.name,
+            type=pascalcase(self.type.name),
             hand=self.hand.__encode__(),
             shantenInfo=self.shanten_info.__encode__(),
-            regular=regular.encode() if (regular := self.regular) is not None else None,
-            chitoi=chitoi.encode() if (chitoi := self.chitoi) is not None else None,
-            kokushi=kokushi.encode() if (kokushi := self.kokushi) is not None else None,
+            regular=regular.__encode__() if (regular := self.regular) is not None else None,
+            chitoi=chitoi.__encode__() if (chitoi := self.chitoi) is not None else None,
+            kokushi=kokushi.__encode__() if (kokushi := self.kokushi) is not None else None,
         )
 
     @classmethod
-    def decode(cls, data: dict) -> "ShantenResult":
+    def __decode__(cls, data: dict) -> "ShantenResult":
         return ShantenResult(
             type=ShantenResultType[snakecase(data["type"])],
             hand=Hand.__decode__(data["hand"]),
             shanten_info=Shanten.__decode__(data["shantenInfo"]),
-            regular=ShantenResult.decode(regular) if (regular := data["regular"]) is not None else None,
-            chitoi=ShantenResult.decode(chitoi) if (chitoi := data["chitoi"]) is not None else None,
-            kokushi=ShantenResult.decode(kokushi) if (kokushi := data["kokushi"]) is not None else None,
+            regular=ShantenResult.__decode__(regular) if (regular := data["regular"]) is not None else None,
+            chitoi=ShantenResult.__decode__(chitoi) if (chitoi := data["chitoi"]) is not None else None,
+            kokushi=ShantenResult.__decode__(kokushi) if (kokushi := data["kokushi"]) is not None else None,
         )
 
     @property
@@ -87,7 +87,7 @@ def regular_shanten(
         "calcAdvanceNum": calc_advance_num
     })
 
-    return ShantenResult.decode(result)
+    return ShantenResult.__decode__(result)
 
 
 def chitoi_shanten(
@@ -99,7 +99,7 @@ def chitoi_shanten(
         "calcAdvanceNum": calc_advance_num
     })
 
-    return ShantenResult.decode(result)
+    return ShantenResult.__decode__(result)
 
 
 def kokushi_shanten(
@@ -111,7 +111,7 @@ def kokushi_shanten(
         "calcAdvanceNum": calc_advance_num
     })
 
-    return ShantenResult.decode(result)
+    return ShantenResult.__decode__(result)
 
 
 def shanten(
@@ -125,7 +125,7 @@ def shanten(
         "calcAdvanceNum": calc_advance_num
     })
 
-    return ShantenResult.decode(result)
+    return ShantenResult.__decode__(result)
 
 
 __all__ = ("regular_shanten",

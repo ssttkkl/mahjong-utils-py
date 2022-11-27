@@ -56,7 +56,7 @@ class RegularHandPattern(HandPattern):
         return dict(
             type="RegularHandPattern",
             k=self.k,
-            jyantou=str(jyantou) if (jyantou := self.jyantou is not None) else None,
+            jyantou=jyantou.__encode__() if (jyantou := self.jyantou) is not None else None,
             menzenMentsu=[mt.__encode__() for mt in self.menzen_mentsu],
             furo=[fr.__encode__() for fr in self.furo],
             tatsu=[tt.__encode__() for tt in self.tatsu],

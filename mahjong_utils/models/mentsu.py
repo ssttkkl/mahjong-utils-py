@@ -27,7 +27,7 @@ class Mentsu(ABC):
         raise NotImplementedError()
 
     def __encode__(self) -> dict:
-        return dict(type=str(type(self)), tile=self.tile.__encode__())
+        return dict(type=type(self).__name__, tile=self.tile.__encode__())
 
     @classmethod
     def __decode__(cls, data: dict) -> "Mentsu":
