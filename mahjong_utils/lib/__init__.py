@@ -26,11 +26,12 @@ class LibMahjongUtils:
             self.lib = self.ffi.dlopen(str(libpath))
 
         self._lib_sy = threading.local()
-        self._lib_sy.x = self.lib.libmahjongutils_symbols()
 
     @property
     def lib_sy(self):
-        return self._lib_sy.x
+        if not hasattr(self._lib_sy, "value"):
+            self._lib_sy.value = self.lib.libmahjongutils_symbols()
+        return self._lib_sy.value
 
     def call(self, name: str, params: dict,
              params_dumps_kwargs: Optional[Mapping[str, Any]] = None,
