@@ -3,7 +3,6 @@ import sys
 from distutils import log
 from distutils.errors import DistutilsExecError
 from distutils.file_util import copy_file
-from distutils.sysconfig import customize_compiler
 from pathlib import Path
 
 from setuptools import Command, setup
@@ -114,6 +113,9 @@ class build_kt(Command):
         self.build_sharedlib()
 
 
+with open("README.md", "r", encoding="utf-8") as f:
+    long_description = f.read()
+
 setup(
     name="mahjong-utils",
     version="0.2.0a1",
@@ -121,7 +123,9 @@ setup(
     author_email="huang.wen.long@hotmail.com",
     license="MIT",
     url="https://github.com/ssttkkl/mahjong-utils",
-    readme="README.md",
+    description="立直麻将小工具",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     install_requires=[
         "pydantic>=1.9.0",
         "cffi>=1.15.1",
@@ -134,6 +138,7 @@ setup(
         "mahjong_utils.yaku"
     ],
     package_data={"": ["*_api.i"]},
+    zip_safe=False,
     options={
         "build_kt": {
             "kt_libraries": [
