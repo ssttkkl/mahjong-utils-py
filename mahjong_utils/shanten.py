@@ -31,9 +31,9 @@ class ShantenResult(BaseModel):
             type=pascalcase(self.type.name),
             hand=self.hand.__encode__(),
             shantenInfo=self.shanten_info.__encode__(),
-            regular=regular.__encode__() if (regular := self.regular) is not None else None,
-            chitoi=chitoi.__encode__() if (chitoi := self.chitoi) is not None else None,
-            kokushi=kokushi.__encode__() if (kokushi := self.kokushi) is not None else None,
+            regular=self.regular.__encode__() if self.regular is not None else None,
+            chitoi=self.chitoi.__encode__() if self.chitoi is not None else None,
+            kokushi=self.kokushi.__encode__() if self.kokushi is not None else None,
         )
 
     @classmethod
@@ -42,9 +42,9 @@ class ShantenResult(BaseModel):
             type=ShantenResultType[snakecase(data["type"])],
             hand=Hand.__decode__(data["hand"]),
             shanten_info=Shanten.__decode__(data["shantenInfo"]),
-            regular=ShantenResult.__decode__(regular) if (regular := data["regular"]) is not None else None,
-            chitoi=ShantenResult.__decode__(chitoi) if (chitoi := data["chitoi"]) is not None else None,
-            kokushi=ShantenResult.__decode__(kokushi) if (kokushi := data["kokushi"]) is not None else None,
+            regular=ShantenResult.__decode__(data["regular"]) if data["regular"] is not None else None,
+            chitoi=ShantenResult.__decode__(data["chitoi"]) if data["chitoi"] is not None else None,
+            kokushi=ShantenResult.__decode__(data["kokushi"]) if data["kokushi"] is not None else None,
         )
 
     @property

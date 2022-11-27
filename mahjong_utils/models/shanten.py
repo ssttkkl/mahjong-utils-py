@@ -35,8 +35,8 @@ class ShantenWithoutGot(Shanten):
             shantenNum=self.shanten,
             advance=[t.__encode__() for t in self.advance],
             advanceNum=self.advance_num,
-            goodShapeAdvance=[t.__encode__() for t in good_shape_advance]
-            if (good_shape_advance := self.good_shape_advance) is not None else None,
+            goodShapeAdvance=[t.__encode__() for t in self.good_shape_advance]
+            if self.good_shape_advance is not None else None,
             goodShapeAdvanceNum=self.good_shape_advance_num
         )
 
@@ -45,12 +45,12 @@ class ShantenWithoutGot(Shanten):
         return ShantenWithoutGot(
             shanten=data["shantenNum"],
             advance=set(Tile.__decode__(x) for x in data["advance"]),
-            advance_num=advance_num
-            if (advance_num := data["advanceNum"]) is not None else None,
-            good_shape_advance=set(Tile.__decode__(x) for x in good_shape_advance)
-            if (good_shape_advance := data["goodShapeAdvance"]) is not None else None,
-            good_shape_advance_num=good_shape_advance_num
-            if (good_shape_advance_num := data["goodShapeAdvanceNum"]) is not None else None,
+            advance_num=data["advanceNum"]
+            if data["advanceNum"] is not None else None,
+            good_shape_advance=set(Tile.__decode__(x) for x in data["goodShapeAdvance"])
+            if data["goodShapeAdvance"] is not None else None,
+            good_shape_advance_num=data["goodShapeAdvanceNum"]
+            if data["goodShapeAdvanceNum"] is not None else None,
         )
 
 

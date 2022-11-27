@@ -52,7 +52,8 @@ class build_kt(Command):
 
     def get_kt_build_dir(self, lib_name, build_info):
         build_dir = Path(build_info.get("root"))
-        if (subproject := build_info.get("subproject", None)) is not None:
+        subproject = build_info.get("subproject", None)
+        if subproject is not None:
             build_dir = build_dir / subproject
         build_dir = build_dir / "build" / "bin" / "native" / "releaseShared"
         return build_dir
@@ -67,7 +68,8 @@ class build_kt(Command):
             root = Path(build_info.get("root")).absolute()
 
             task = ""
-            if (subproject := build_info.get("subproject", None)) is not None:
+            subproject = build_info.get("subproject", None)
+            if subproject is not None:
                 task += f":{subproject}:"
             task += "linkReleaseSharedNative"
 

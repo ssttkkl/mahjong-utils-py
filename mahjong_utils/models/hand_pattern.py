@@ -56,7 +56,7 @@ class RegularHandPattern(HandPattern):
         return dict(
             type="RegularHandPattern",
             k=self.k,
-            jyantou=jyantou.__encode__() if (jyantou := self.jyantou) is not None else None,
+            jyantou=self.jyantou.__encode__() if self.jyantou is not None else None,
             menzenMentsu=[mt.__encode__() for mt in self.menzen_mentsu],
             furo=[fr.__encode__() for fr in self.furo],
             tatsu=[tt.__encode__() for tt in self.tatsu],
@@ -67,7 +67,7 @@ class RegularHandPattern(HandPattern):
     def __decode__(cls, data: dict) -> "RegularHandPattern":
         return RegularHandPattern(
             k=data["k"],
-            jyantou=Tile.__decode__(jyantou) if (jyantou := data["jyantou"]) is not None else None,
+            jyantou=Tile.__decode__(data["jyantou"]) if data["jyantou"] is not None else None,
             menzen_mentsu=tuple(Mentsu.__decode__(x) for x in data["menzenMentsu"]),
             furo=tuple(Furo.__decode__(x) for x in data["furo"]),
             tatsu=tuple(Tatsu.__decode__(x) for x in data["tatsu"]),
@@ -172,7 +172,7 @@ class KokushiHandPattern(HandPattern):
         return dict(
             type="KokushiHandPattern",
             yaochu=[t.__encode__() for t in self.yaochu],
-            repeated=repeated.__encode__() if (repeated := self.repeated) is not None else None,
+            repeated=self.repeated.__encode__() if self.repeated is not None else None,
             remaining=[t.__encode__() for t in self.remaining],
         )
 
@@ -180,7 +180,7 @@ class KokushiHandPattern(HandPattern):
     def __decode__(cls, data: dict) -> "KokushiHandPattern":
         return KokushiHandPattern(
             yaochu=frozenset(Tile.__decode__(x) for x in data["yaochu"]),
-            repeated=Tile.__decode__(x) if (x := data["repeated"]) else None,
+            repeated=Tile.__decode__(data["repeated"]) if data["repeated"] is not None else None,
             remaining=tuple(Tile.__decode__(x) for x in data["remaining"])
         )
 

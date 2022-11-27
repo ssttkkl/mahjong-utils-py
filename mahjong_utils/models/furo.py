@@ -83,7 +83,9 @@ class Kan(Kotsu, Furo):
     ankan: bool
 
     def __encode__(self) -> dict:
-        return Furo.__encode__(self) | dict(ankan=self.ankan)
+        x = Furo.__encode__(self)
+        x["ankan"] = self.ankan
+        return x
 
     def __repr__(self):
         if self.ankan:

@@ -41,9 +41,9 @@ class RegularHoraHandPattern(HoraHandPattern, RegularHandPattern):
             type="RegularHoraHandPattern",
             agari=self.agari.__encode__(),
             tsumo=self.tsumo,
-            self_wind=pascalcase(self_wind.name) if (self_wind := self.self_wind) is not None else None,
-            round_wind=pascalcase(round_wind.name) if (round_wind := self.round_wind) is not None else None,
-            agari_tatsu=agari_tatsu.__encode__() if (agari_tatsu := self.agari_tatsu) is not None else None,
+            self_wind=pascalcase(self.self_wind.name) if self.self_wind is not None else None,
+            round_wind=pascalcase(self.round_wind.name) if self.round_wind is not None else None,
+            agari_tatsu=self.agari_tatsu.__encode__() if self.agari_tatsu is not None else None,
             pattern=RegularHandPattern.__encode__(self)
         )
 
@@ -52,9 +52,9 @@ class RegularHoraHandPattern(HoraHandPattern, RegularHandPattern):
         return RegularHoraHandPattern(
             agari=Tile.__decode__(data["agari"]),
             tsumo=data["tsumo"],
-            self_wind=Wind[snakecase(self_wind)] if (self_wind := data["selfWind"]) is not None else None,
-            round_wind=Wind[snakecase(round_wind)] if (round_wind := data["roundWind"]) is not None else None,
-            agari_tatsu=Tatsu.__decode__(agari_tatsu) if (agari_tatsu := data["agariTatsu"]) is not None else None,
+            self_wind=Wind[snakecase(data["selfWind"])] if data["selfWind"] is not None else None,
+            round_wind=Wind[snakecase(data["roundWind"])] if data["roundWind"] is not None else None,
+            agari_tatsu=Tatsu.__decode__(data["agariTatsu"]) if data["agariTatsu"] is not None else None,
             hu=data["hu"],
             **RegularHandPattern.__decode__(data["pattern"]).dict()
         )
@@ -68,8 +68,8 @@ class ChitoiHoraHandPattern(HoraHandPattern, ChitoiHandPattern):
             type="ChitoiHoraHandPattern",
             agari=self.agari.__encode__(),
             tsumo=self.tsumo,
-            self_wind=pascalcase(self_wind.name) if (self_wind := self.self_wind) is not None else None,
-            round_wind=pascalcase(round_wind.name) if (round_wind := self.round_wind) is not None else None,
+            self_wind=pascalcase(self.self_wind.name) if self.self_wind is not None else None,
+            round_wind=pascalcase(self.round_wind.name) if self.round_wind is not None else None,
             pattern=ChitoiHandPattern.__encode__(self)
         )
 
@@ -78,8 +78,8 @@ class ChitoiHoraHandPattern(HoraHandPattern, ChitoiHandPattern):
         return ChitoiHoraHandPattern(
             agari=Tile.__decode__(data["agari"]),
             tsumo=data["tsumo"],
-            self_wind=Wind[snakecase(self_wind)] if (self_wind := data["selfWind"]) is not None else None,
-            round_wind=Wind[snakecase(round_wind)] if (round_wind := data["roundWind"]) is not None else None,
+            self_wind=Wind[snakecase(data["selfWind"])] if data["selfWind"] is not None else None,
+            round_wind=Wind[snakecase(data["roundWind"])] if data["roundWind"] is not None else None,
             **ChitoiHandPattern.__decode__(data["pattern"]).dict()
         )
 
@@ -97,8 +97,8 @@ class KokushiHoraHandPattern(HoraHandPattern, KokushiHandPattern):
             type="KokushiHoraHandPattern",
             agari=self.agari.__encode__(),
             tsumo=self.tsumo,
-            self_wind=pascalcase(self_wind.name) if (self_wind := self.self_wind) is not None else None,
-            round_wind=pascalcase(round_wind.name) if (round_wind := self.round_wind) is not None else None,
+            self_wind=pascalcase(self.self_wind.name) if self.self_wind is not None else None,
+            round_wind=pascalcase(self.round_wind.name) if self.round_wind is not None else None,
             pattern=KokushiHandPattern.__encode__(self)
         )
 
@@ -107,7 +107,7 @@ class KokushiHoraHandPattern(HoraHandPattern, KokushiHandPattern):
         return KokushiHoraHandPattern(
             agari=Tile.__decode__(data["agari"]),
             tsumo=data["tsumo"],
-            self_wind=Wind[snakecase(self_wind)] if (self_wind := data["selfWind"]) is not None else None,
-            round_wind=Wind[snakecase(round_wind)] if (round_wind := data["roundWind"]) is not None else None,
+            self_wind=Wind[snakecase(data["selfWind"])] if data["selfWind"] is not None else None,
+            round_wind=Wind[snakecase(data["roundWind"])] if data["roundWind"] is not None else None,
             **KokushiHandPattern.__decode__(data["pattern"]).dict()
         )
