@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, FrozenSet, Tuple
 
+from pydantic import Field
 from stringcase import pascalcase, snakecase
 
 from mahjong_utils.models.hand_pattern import RegularHandPattern, HandPattern, ChitoiHandPattern, KokushiHandPattern
 from mahjong_utils.models.tatsu import Tatsu
-from mahjong_utils.models.tile import Tile
+from mahjong_utils.models.tile import Tile, all_yaochu
 from mahjong_utils.models.wind import Wind
 
 
@@ -62,31 +63,34 @@ class RegularHoraHandPattern(HoraHandPattern, RegularHandPattern):
 
 class ChitoiHoraHandPattern(HoraHandPattern, ChitoiHandPattern):
     hu: int = 25
+    remaining: Tuple[Tile, ...] = Field(default_factory=tuple)
 
     def __encode__(self) -> dict:
         return dict(
             type="ChitoiHoraHandPattern",
+            pairs=[t.__encode__() for t in self.pairs],
             agari=self.agari.__encode__(),
             tsumo=self.tsumo,
             self_wind=pascalcase(self.self_wind.name) if self.self_wind is not None else None,
             round_wind=pascalcase(self.round_wind.name) if self.round_wind is not None else None,
-            pattern=ChitoiHandPattern.__encode__(self)
         )
 
     @classmethod
     def __decode__(cls, data: dict) -> "ChitoiHoraHandPattern":
         return ChitoiHoraHandPattern(
             agari=Tile.__decode__(data["agari"]),
+            pairs=frozenset(Tile.__decode__(t) for t in data["pairs"]),
             tsumo=data["tsumo"],
             self_wind=Wind[snakecase(data["selfWind"])] if data["selfWind"] is not None else None,
             round_wind=Wind[snakecase(data["roundWind"])] if data["roundWind"] is not None else None,
-            **ChitoiHandPattern.__decode__(data["pattern"]).dict()
         )
 
 
 class KokushiHoraHandPattern(HoraHandPattern, KokushiHandPattern):
     hu: int = 20
     repeated: Tile
+    yaochu: FrozenSet[Tile] = all_yaochu
+    remaining: Tuple[Tile, ...] = Field(default_factory=tuple)
 
     @property
     def thirteen_waiting(self) -> bool:
@@ -95,19 +99,19 @@ class KokushiHoraHandPattern(HoraHandPattern, KokushiHandPattern):
     def __encode__(self) -> dict:
         return dict(
             type="KokushiHoraHandPattern",
+            repeated=self.repeated.__encode__(),
             agari=self.agari.__encode__(),
             tsumo=self.tsumo,
             self_wind=pascalcase(self.self_wind.name) if self.self_wind is not None else None,
             round_wind=pascalcase(self.round_wind.name) if self.round_wind is not None else None,
-            pattern=KokushiHandPattern.__encode__(self)
         )
 
     @classmethod
     def __decode__(cls, data: dict) -> "KokushiHoraHandPattern":
         return KokushiHoraHandPattern(
+            repeated=Tile.__decode__(data["repeated"]),
             agari=Tile.__decode__(data["agari"]),
             tsumo=data["tsumo"],
             self_wind=Wind[snakecase(data["selfWind"])] if data["selfWind"] is not None else None,
             round_wind=Wind[snakecase(data["roundWind"])] if data["roundWind"] is not None else None,
-            **KokushiHandPattern.__decode__(data["pattern"]).dict()
         )

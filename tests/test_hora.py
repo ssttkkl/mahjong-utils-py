@@ -4,9 +4,10 @@ from mahjong_utils.models.tile import Tile, parse_tiles
 from mahjong_utils.models.wind import Wind
 from mahjong_utils.shanten import shanten
 from mahjong_utils.yaku.common import ittsu, chinitsu, ipe, tsumo, pinhu, honitsu, sananko, toitoi, self_wind, \
-    round_wind, haku
+    round_wind, haku, chitoi
 from mahjong_utils.yaku.extra import richi, tenhou, ippatsu
-from mahjong_utils.yaku.yakuman import churen, tsuiso, daisushi, suanko_tanki, sukantsu, lyuiso
+from mahjong_utils.yaku.yakuman import churen, tsuiso, daisushi, suanko_tanki, sukantsu, lyuiso, \
+    kokushi_thirteen_waiting
 
 
 def test_build_hora():
@@ -103,6 +104,30 @@ def test_build_hora_9():
     assert hora.han == 13 * 6
     assert hora.parent_point == (48000 * 6, 16000 * 6)
     assert hora.child_point == (32000 * 6, 16000 * 6, 8000 * 6)
+
+
+def test_build_hora_10():
+    hora = build_hora(parse_tiles("19s19p19m12345677z"),
+                      [],
+                      Tile.by_text("7z"),
+                      True)
+
+    assert hora.yaku == {kokushi_thirteen_waiting}
+    assert hora.han == 13 * 2
+    assert hora.parent_point == (48000 * 2, 16000 * 2)
+    assert hora.child_point == (32000 * 2, 16000 * 2, 8000 * 2)
+
+
+def test_build_hora_11():
+    hora = build_hora(parse_tiles("114477s225588m33z"),
+                      [],
+                      Tile.by_text("3z"),
+                      False)
+
+    assert hora.yaku == {chitoi}
+    assert hora.han == 2
+    assert hora.parent_point == (2400, 0)
+    assert hora.child_point == (1600, 0, 0)
 
 
 def test_build_hora_from_shanten_result():
