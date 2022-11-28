@@ -1,6 +1,8 @@
 mahjong-utils-py
 ========
 
+[![PyPI version](https://badge.fury.io/py/mahjong-utils.svg)](https://badge.fury.io/py/mahjong-utils)
+
 日麻小工具[ssttkkl/mahjong-utils](https://github.com/ssttkkl/mahjong-utils)的Python绑定
 
 已实现功能：
