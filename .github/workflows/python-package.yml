@@ -94,7 +94,8 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install pytest
-        python3 -m pip install --find-links=dist mahjong-utils
+        python3 -m pip install -r requirements.txt
+        python3 -m pip install --find-links=dist mahjong-utils --no-index
     - name: Test
       run: |
         mv mahjong_utils _mahjong_utils  # to avoid importing from workspace
