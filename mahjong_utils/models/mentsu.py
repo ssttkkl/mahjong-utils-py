@@ -26,18 +26,12 @@ class Mentsu(ABC):
     def after_discard(self, discard: Tile) -> "Tatsu":
         raise NotImplementedError()
 
-    def __encode__(self) -> dict:
-        return dict(type=type(self).__name__, tile=self.tile.__encode__())
+    def __encode__(self) -> str:
+        return str(self)
 
     @classmethod
-    def __decode__(cls, data: dict) -> "Mentsu":
-        t = Tile.__decode__(data["tile"])
-        if data['type'] == 'Kotsu':
-            return Kotsu(t)
-        elif data['type'] == 'Shuntsu':
-            return Shuntsu(t)
-        else:
-            raise ValueError("invalid type: " + data['type'])
+    def __decode__(cls, data: str) -> "Mentsu":
+        return Mentsu.parse(data)
 
     @staticmethod
     def parse(t: Union[Sequence[Tile], str]) -> "Mentsu":

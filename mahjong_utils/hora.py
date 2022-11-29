@@ -1,5 +1,4 @@
-from typing import Optional, Set, List
-from typing import Tuple
+from typing import Optional, Set, List, Tuple
 
 from pydantic import BaseModel
 from stringcase import snakecase, pascalcase
@@ -100,7 +99,7 @@ def build_hora(
         extra_yaku: Optional[Set[Yaku]] = None
 ) -> Hora:
     """
-    根据手牌构造Hora
+    和牌分析
 
     :param tiles: 手牌
     :param furo: 副露
@@ -110,7 +109,7 @@ def build_hora(
     :param self_wind: 自风
     :param round_wind: 场风
     :param extra_yaku: 额外役
-    :return: Hora
+    :return: 和牌分析结果
     """
     result = libmahjongutils.call("hora", {
         "tiles": [str(t) for t in tiles],
@@ -135,7 +134,7 @@ def build_hora_from_shanten_result(
         extra_yaku: Optional[Set[Yaku]] = None
 ) -> Hora:
     """
-    根据向听分析结果构造Hora
+    和牌分析（根据向听分析结果）
 
     :param shanten_result: 向听分析结果
     :param agari: 和牌
@@ -144,7 +143,7 @@ def build_hora_from_shanten_result(
     :param self_wind: 自风
     :param round_wind: 场风
     :param extra_yaku: 额外役
-    :return: Hora
+    :return: 和牌分析结果
     """
     result = libmahjongutils.call("hora", {
         "shantenResult": shanten_result.__encode__(),

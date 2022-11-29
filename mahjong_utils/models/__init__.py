@@ -3,7 +3,6 @@ from . import hand
 from . import hand_pattern
 from . import hora_hand_pattern
 from . import mentsu
-from . import shanten
 from . import tatsu
 from . import tile
 from . import tile_type

@@ -28,25 +28,12 @@ class Tatsu(ABC):
     def with_waiting(self, tile: Tile) -> Mentsu:
         raise NotImplementedError()
 
-    def __encode__(self) -> dict:
-        return dict(
-            type=type(self).__name__,
-            first=self.first.__encode__()
-        )
+    def __encode__(self) -> str:
+        return str(self)
 
     @classmethod
-    def __decode__(cls, data: dict) -> "Tatsu":
-        t = Tile.__decode__(data["first"])
-        if data['type'] == 'Ryanmen':
-            return Ryanmen(t)
-        elif data['type'] == 'Kanchan':
-            return Kanchan(t)
-        elif data['type'] == 'Penchan':
-            return Penchan(t)
-        elif data['type'] == 'Toitsu':
-            return Toitsu(t)
-        else:
-            raise ValueError("invalid type: " + data['type'])
+    def __decode__(cls, data: str) -> "Tatsu":
+        return Tatsu.parse(data)
 
     @staticmethod
     def parse(t: Union[Sequence[Tile], str]) -> "Tatsu":

@@ -1,5 +1,5 @@
 from mahjong_utils.models.tile import parse_tiles, all_yaochu, Tile
-from mahjong_utils.shanten import shanten, kokushi_shanten, regular_shanten
+from mahjong_utils.shanten import shanten, kokushi_shanten, regular_shanten, furo_chance_shanten
 
 
 def shanten_tester(tiles, expected_shanten,
@@ -194,3 +194,8 @@ def test_shanten_with_got_tile():
         Tile.by_text("3m"): {*parse_tiles("5m"), },
         Tile.by_text("5m"): {*parse_tiles("3m"), }
     })
+
+
+def test_furo_chance_shanten():
+    result = furo_chance_shanten(parse_tiles("3456778m123457p"), Tile.by_text("7m"))
+    print(result)
