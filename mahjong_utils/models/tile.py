@@ -13,7 +13,7 @@ class Tile(NamedTuple):
     num: int
 
     def __repr__(self):
-        return f"{self.num}{self.tile_type}"
+        return f"{self.num}{self.tile_type.lower()}"
 
     @property
     def real_num(self) -> int:

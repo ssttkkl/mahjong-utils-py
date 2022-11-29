@@ -88,7 +88,7 @@ class ShantenWithGot(Shanten):
 
 
 class ShantenWithFuroChance(Shanten):
-    pass_: ShantenWithoutGot
+    pass_: Optional[ShantenWithoutGot]
     chi: Dict[Tatsu, ShantenWithGot]
     pon: Optional[ShantenWithGot]
     minkan: Optional[ShantenWithGot]
@@ -97,7 +97,8 @@ class ShantenWithFuroChance(Shanten):
         return {
             'type': "ShantenWithFuroChance",
             'shantenNum': self.shanten,
-            'pass': self.pass_.__encode__(),
+            'pass': self.pass_.__encode__()
+            if self.pass_ is not None else None,
             'chi': dict((k.__encode__(), v.__encode__()) for (k, v) in self.chi.items()),
             'pon': self.pon.__encode__()
             if self.pon is not None else None,
@@ -109,7 +110,8 @@ class ShantenWithFuroChance(Shanten):
     def __decode__(cls, data: dict) -> "ShantenWithFuroChance":
         return ShantenWithFuroChance(
             shanten=data["shantenNum"],
-            pass_=ShantenWithoutGot.__decode__(data["pass"]),
+            pass_=ShantenWithoutGot.__decode__(data["pass"])
+            if data["pass"] is not None else None,
             chi=dict((Tatsu.__decode__(k), ShantenWithGot.__decode__(v)) for (k, v) in data["chi"].items()),
             pon=ShantenWithGot.__decode__(data["pon"])
             if data["pon"] is not None else None,
@@ -180,6 +182,10 @@ class ShantenResult(BaseModel):
         return getattr(self.shanten_info, "discard_to_advance", None)
 
     @property
+    def ankan_to_advance(self) -> Optional[Dict[Tile, ShantenWithoutGot]]:
+        return getattr(self.shanten_info, "ankan_to_advance", None)
+
+    @property
     def with_got(self) -> bool:
         return self.discard_to_advance is not None
 
@@ -189,6 +195,7 @@ def regular_shanten(
         furo: Optional[Sequence[Furo]] = None,
         calc_advance_num: bool = True,
         best_shanten_only: bool = False,
+        allow_ankan: bool = True,
 ) -> ShantenResult:
     """
     标准形向听分析
@@ -197,6 +204,7 @@ def regular_shanten(
     :param furo: 副露（对向听分析本身无用，但若需要将结果用于和了分析则需要传入）
     :param calc_advance_num: 是否计算进张数
     :param best_shanten_only: 仅计算最优向听数的打法（不计算退向打法）
+    :param allow_ankan: 是否允许暗杠
     :return 向听分析结果
     """
     result = libmahjongutils.call("regularShanten", {
@@ -204,6 +212,7 @@ def regular_shanten(
         "furo": [Furo.__encode__(fr) for fr in furo] if furo is not None else [],
         "calcAdvanceNum": calc_advance_num,
         "bestShantenOnly": best_shanten_only,
+        "allowAnkan": allow_ankan,
     })
 
     return ShantenResult.__decode__(result)
@@ -258,6 +267,7 @@ def shanten(
         furo: Optional[Sequence[Furo]] = None,
         calc_advance_num: bool = True,
         best_shanten_only: bool = False,
+        allow_ankan: bool = True,
 ) -> ShantenResult:
     """
     向听分析
@@ -266,6 +276,7 @@ def shanten(
     :param furo: 副露（对向听分析本身无用，但若需要将结果用于和了分析则需要传入）
     :param calc_advance_num: 是否计算进张数
     :param best_shanten_only: 仅计算最优向听数的打法（不计算退向打法）
+    :param allow_ankan: 是否允许暗杠
     :return 向听分析结果
     """
     result = libmahjongutils.call("shanten", {
@@ -273,6 +284,7 @@ def shanten(
         "furo": [Furo.__encode__(fr) for fr in furo] if furo is not None else [],
         "calcAdvanceNum": calc_advance_num,
         "bestShantenOnly": best_shanten_only,
+        "allowAnkan": allow_ankan,
     })
 
     return ShantenResult.__decode__(result)
