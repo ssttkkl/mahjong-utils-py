@@ -92,7 +92,7 @@ class Ryanmen(Tatsu):
             raise ValueError(f"tile {tile} is not waiting")
 
     def __repr__(self):
-        return tiles_text([self.first, self.second])
+        return f"{self.first.num}{self.second.num}{self.first.tile_type.lower()}"
 
 
 @dataclass(frozen=True)
@@ -125,7 +125,7 @@ class Penchan(Tatsu):
             raise ValueError(f"tile {tile} is not waiting")
 
     def __repr__(self):
-        return tiles_text([self.first, self.second])
+        return f"{self.first.num}{self.second.num}{self.first.tile_type.lower()}"
 
 
 @dataclass(frozen=True)
@@ -153,7 +153,7 @@ class Kanchan(Tatsu):
             raise ValueError(f"tile {tile} is not waiting")
 
     def __repr__(self):
-        return tiles_text([self.first, self.second])
+        return f"{self.first.num}{self.second.num}{self.first.tile_type.lower()}"
 
 
 @dataclass(frozen=True)
@@ -177,7 +177,7 @@ class Toitsu(Tatsu):
             raise ValueError(f"tile {tile} is not waiting")
 
     def __repr__(self):
-        return tiles_text([self.first, self.second])
+        return f"{self.first.num}{self.second.num}{self.first.tile_type.lower()}"
 
 
 __all__ = ("Tatsu", "Toitsu", "Kanchan", "Ryanmen", "Penchan",)

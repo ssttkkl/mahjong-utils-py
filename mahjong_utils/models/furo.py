@@ -61,7 +61,7 @@ class Chi(Shuntsu, Furo):
     """
 
     def __repr__(self):
-        return f"{self.tile.num}{self.tile.num + 1}{self.tile.num + 2}{self.tile.tile_type}"
+        return f"{self.tile.num}{self.tile.num + 1}{self.tile.num + 2}{self.tile.tile_type.lower()}"
 
 
 @dataclass(frozen=True)
@@ -71,7 +71,7 @@ class Pon(Kotsu, Furo):
     """
 
     def __repr__(self):
-        return f"{self.tile.num}{self.tile.num}{self.tile.num}{self.tile.tile_type}"
+        return f"{self.tile.num}{self.tile.num}{self.tile.num}{self.tile.tile_type.lower()}"
 
 
 @dataclass(frozen=True)
@@ -89,9 +89,9 @@ class Kan(Kotsu, Furo):
 
     def __repr__(self):
         if self.ankan:
-            return f"0{self.tile.num}{self.tile.num}0{self.tile.tile_type}"
+            return f"0{self.tile.num}{self.tile.num}0{self.tile.tile_type.lower()}"
         else:
-            return f"{self.tile.num}{self.tile.num}{self.tile.num}{self.tile.num}{self.tile.tile_type}"
+            return f"{self.tile.num}{self.tile.num}{self.tile.num}{self.tile.num}{self.tile.tile_type.lower()}"
 
     @property
     def tiles(self) -> List[Tile]:

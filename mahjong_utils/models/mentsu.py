@@ -60,7 +60,7 @@ class Kotsu(Mentsu):
     """
 
     def __repr__(self):
-        return f"{self.tile.num}{self.tile.num}{self.tile.num}{self.tile.tile_type}"
+        return f"{self.tile.num}{self.tile.num}{self.tile.num}{self.tile.tile_type.lower()}"
 
     @property
     def tiles(self) -> List[Tile]:
@@ -84,7 +84,7 @@ class Shuntsu(Mentsu):
         assert 1 <= self.tile.num <= 7
 
     def __repr__(self):
-        return f"{self.tile.num}{self.tile.num + 1}{self.tile.num + 2}{self.tile.tile_type}"
+        return f"{self.tile.num}{self.tile.num + 1}{self.tile.num + 2}{self.tile.tile_type.lower()}"
 
     @property
     def tiles(self) -> List[Tile]:

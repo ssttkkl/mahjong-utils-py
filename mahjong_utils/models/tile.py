@@ -178,12 +178,12 @@ def tiles_text(tiles: Union[Tile, Iterable[Tile]]) -> str:
     with StringIO() as sio:
         for t in tiles:
             if prev and prev.tile_type != t.tile_type:
-                sio.write(prev.tile_type)
+                sio.write(prev.tile_type.lower())
             sio.write(str(t.num))
             prev = t
 
         if prev:
-            sio.write(prev.tile_type)
+            sio.write(prev.tile_type.lower())
 
         return sio.getvalue()
 

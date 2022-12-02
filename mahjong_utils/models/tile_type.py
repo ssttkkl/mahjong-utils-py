@@ -6,10 +6,10 @@ class TileType(str, Enum):
     牌的花色
     """
 
-    M = "m"
-    P = "p"
-    S = "s"
-    Z = "z"
+    M = "M"
+    P = "P"
+    S = "S"
+    Z = "Z"
 
     @property
     def num_range(self):
