@@ -209,7 +209,7 @@ def regular_shanten(
     """
     result = libmahjongutils.call("regularShanten", {
         "tiles": [str(t) for t in tiles],
-        "furo": [Furo.__encode__(fr) for fr in furo] if furo is not None else [],
+        "furo": [fr.__encode__() for fr in furo] if furo is not None else [],
         "calcAdvanceNum": calc_advance_num,
         "bestShantenOnly": best_shanten_only,
         "allowAnkan": allow_ankan,
@@ -281,7 +281,7 @@ def shanten(
     """
     result = libmahjongutils.call("shanten", {
         "tiles": [str(t) for t in tiles],
-        "furo": [Furo.__encode__(fr) for fr in furo] if furo is not None else [],
+        "furo": [fr.__encode__() for fr in furo] if furo is not None else [],
         "calcAdvanceNum": calc_advance_num,
         "bestShantenOnly": best_shanten_only,
         "allowAnkan": allow_ankan,
